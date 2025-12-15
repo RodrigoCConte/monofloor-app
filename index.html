@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Monofloor - App de Equipes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="phone-notch"></div>
+
+        <!-- Tela de Login -->
+        <div id="screen-login" class="screen active">
+            <div class="login-container">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Monofloor" class="logo-image">
+                    <span class="logo-subtitle">EQUIPES</span>
+                </div>
+                <div class="login-form">
+                    <div class="input-group">
+                        <label>E-mail</label>
+                        <input type="email" id="loginEmail" placeholder="seu@email.com">
+                    </div>
+                    <div class="input-group">
+                        <label>Senha</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="loginPassword" placeholder="********">
+                            <button type="button" class="password-toggle" onclick="togglePasswordVisibility('loginPassword', this)">
+                                <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="doLogin()">Entrar</button>
+                    <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                    <div class="signup-link">
+                        Novo por aqui? <a href="#" onclick="navigateTo('screen-register-step1')">Criar conta</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- FLUXO DE REGISTRO - STEP 1: Dados Pessoais -->
+        <!-- ========================================== -->
+        <div id="screen-register-step1" class="screen">
+            <div class="header-back">
+                <button class="back-btn" onclick="navigateTo('screen-login')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1>Criar Conta</h1>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="content register-content">
+                <!-- Progress Steps -->
+                <div class="register-progress">
+                    <div class="progress-step active">
+                        <div class="step-circle">1</div>
+                        <span>Dados</span>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step">
+                        <div class="step-circle">2</div>
+                        <span>Documento</span>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step">
+                        <div class="step-circle">3</div>
+                        <span>Foto</span>
+                    </div>
+                </div>
+
+                <div class="register-form">
+                    <h2 class="register-title">Seus dados pessoais</h2>
+                    <p class="register-subtitle">Preencha suas informacoes para criar sua conta</p>
+
+                    <div class="input-group">
+                        <label>Nome completo *</label>
+                        <input type="text" placeholder="Digite seu nome completo" id="regName">
+                    </div>
+                    <div class="input-group">
+                        <label>Username *</label>
+                        <div class="input-with-prefix">
+                            <span class="prefix">@</span>
+                            <input type="text" placeholder="seu.username" id="regUsername">
+                        </div>
+                        <span class="input-hint">Este sera seu identificador unico no app</span>
+                    </div>
+                    <div class="input-group">
+                        <label>E-mail *</label>
+                        <input type="email" placeholder="seu@email.com" id="regEmail">
+                    </div>
+                    <div class="input-group">
+                        <label>CPF *</label>
+                        <input type="text" placeholder="000.000.000-00" id="regCpf" maxlength="14" oninput="formatCPF(this)">
+                    </div>
+                    <div class="input-group">
+                        <label>Telefone</label>
+                        <input type="tel" placeholder="(11) 99999-9999" id="regPhone" maxlength="15" oninput="formatPhone(this)">
+                    </div>
+                    <div class="input-group">
+                        <label>Senha *</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" placeholder="Minimo 8 caracteres" id="regPassword">
+                            <button type="button" class="password-toggle" onclick="togglePasswordVisibility('regPassword', this)">
+                                <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Confirmar senha *</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" placeholder="Repita a senha" id="regPasswordConfirm">
+                            <button type="button" class="password-toggle" onclick="togglePasswordVisibility('regPasswordConfirm', this)">
+                                <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="goToStep2()">Continuar</button>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- FLUXO DE REGISTRO - STEP 2: Documento -->
+        <!-- ========================================== -->
+        <div id="screen-register-step2" class="screen">
+            <div class="header-back">
+                <button class="back-btn" onclick="navigateTo('screen-register-step1')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1>Documento</h1>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="content register-content">
+                <!-- Progress Steps -->
+                <div class="register-progress">
+                    <div class="progress-step completed">
+                        <div class="step-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <span>Dados</span>
+                    </div>
+                    <div class="progress-line completed"></div>
+                    <div class="progress-step active">
+                        <div class="step-circle">2</div>
+                        <span>Documento</span>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step">
+                        <div class="step-circle">3</div>
+                        <span>Foto</span>
+                    </div>
+                </div>
+
+                <div class="register-form document-form">
+                    <h2 class="register-title">Documento de identificacao</h2>
+                    <p class="register-subtitle">Envie uma foto do seu RG ou CNH para verificacao</p>
+
+                    <div class="document-upload-area" id="documentUploadArea" onclick="document.getElementById('documentInput').click()">
+                        <div class="upload-placeholder" id="documentPlaceholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="4" width="18" height="16" rx="2"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                                <line x1="7" y1="15" x2="11" y2="15"/>
+                                <line x1="7" y1="18" x2="17" y2="18"/>
+                            </svg>
+                            <span class="upload-text">Toque para enviar documento</span>
+                            <span class="upload-hint">RG, CNH ou outro documento com foto</span>
+                        </div>
+                        <img id="documentPreview" src="" alt="" style="display: none;">
+                        <div class="upload-success" id="documentSuccess" style="display: none;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                            <span>Documento enviado</span>
+                        </div>
+                    </div>
+                    <input type="file" id="documentInput" accept="image/*" style="display: none;" onchange="previewDocument(this)">
+
+                    <div class="document-tips">
+                        <h4>Dicas para uma boa foto:</h4>
+                        <ul>
+                            <li>Certifique-se que o documento esta bem iluminado</li>
+                            <li>Todos os dados devem estar legiveis</li>
+                            <li>Evite reflexos e sombras</li>
+                            <li>A foto deve estar de frente</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="register-buttons">
+                    <button class="btn-secondary" onclick="navigateTo('screen-register-step1')">Voltar</button>
+                    <button class="btn-primary" onclick="goToStep3()">Continuar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- FLUXO DE REGISTRO - STEP 3: Foto de Perfil -->
+        <!-- ========================================== -->
+        <div id="screen-register-step3" class="screen">
+            <div class="header-back">
+                <button class="back-btn" onclick="navigateTo('screen-register-step2')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1>Foto de Perfil</h1>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="content register-content">
+                <!-- Progress Steps -->
+                <div class="register-progress">
+                    <div class="progress-step completed">
+                        <div class="step-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <span>Dados</span>
+                    </div>
+                    <div class="progress-line completed"></div>
+                    <div class="progress-step completed">
+                        <div class="step-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <span>Documento</span>
+                    </div>
+                    <div class="progress-line completed"></div>
+                    <div class="progress-step active">
+                        <div class="step-circle">3</div>
+                        <span>Foto</span>
+                    </div>
+                </div>
+
+                <div class="register-form photo-form">
+                    <h2 class="register-title">Sua foto de perfil</h2>
+                    <p class="register-subtitle">Adicione uma foto para que a equipe possa te reconhecer</p>
+
+                    <div class="profile-photo-upload-large">
+                        <div class="photo-circle-large" onclick="document.getElementById('profilePhotoInput').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" id="profilePhotoPlaceholder">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <img id="profilePhotoPreview" src="" alt="" style="display: none;">
+                            <div class="photo-overlay-large">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                                    <circle cx="12" cy="13" r="4"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;" onchange="previewProfilePhoto(this)">
+                        <span class="photo-hint">Toque para adicionar sua foto</span>
+                    </div>
+
+                    <div class="photo-options">
+                        <button class="photo-option-btn" onclick="document.getElementById('profilePhotoInput').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                            <span>Escolher da galeria</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="register-buttons">
+                    <button class="btn-secondary" onclick="navigateTo('screen-register-step2')">Voltar</button>
+                    <button class="btn-primary" onclick="submitRegistration()">Finalizar Cadastro</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- TELA DE AGUARDANDO APROVACAO -->
+        <!-- ========================================== -->
+        <div id="screen-pending-approval" class="screen">
+            <div class="pending-approval-container">
+                <div class="pending-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </div>
+                <h1>Cadastro Enviado!</h1>
+                <p class="pending-message">
+                    Seu cadastro foi enviado com sucesso e esta aguardando aprovacao da equipe Monofloor.
+                </p>
+                <div class="pending-info">
+                    <div class="info-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <span>Dados pessoais verificados</span>
+                    </div>
+                    <div class="info-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <span>Documento enviado</span>
+                    </div>
+                    <div class="info-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <span>Foto de perfil adicionada</span>
+                    </div>
+                </div>
+                <div class="pending-status">
+                    <div class="status-badge pending">
+                        <div class="status-dot"></div>
+                        <span>Aguardando aprovacao</span>
+                    </div>
+                </div>
+                <p class="pending-note">
+                    Voce recebera uma notificacao assim que seu cadastro for aprovado. Isso geralmente leva ate 24 horas.
+                </p>
+                <button class="btn-secondary" onclick="navigateTo('screen-login')">Voltar para Login</button>
+            </div>
+        </div>
+
+        <!-- Tela de Projetos (PRINCIPAL) -->
+        <div id="screen-projects" class="screen">
+            <div class="header">
+                <div class="header-left">
+                    <img src="logo.png" alt="Monofloor" class="header-logo">
+                </div>
+                <div class="header-right">
+                    <div class="avatar" onclick="navigateTo('screen-profile')">JS</div>
+                </div>
+            </div>
+
+            <div class="content">
+                <!-- Location Status Banner -->
+                <div class="location-banner" id="locationBanner">
+                    <div class="location-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 8v8M8 12h8"/>
+                        </svg>
+                    </div>
+                    <span>Localizando...</span>
+                </div>
+
+                <!-- Active Projects -->
+                <div class="section-title">Meus Projetos</div>
+                <div class="projects-list" id="projectsList">
+                    <!-- Projetos carregados dinamicamente do Pipefy -->
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <span>Carregando projetos...</span>
+                    </div>
+                </div>
+
+                <!-- Nearby Projects Button -->
+                <button class="btn-nearby-projects" id="btnNearbyProjects" onclick="openNearbyProjectsModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <span>PROJETOS PROXIMOS A MIM</span>
+                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </button>
+
+            </div>
+
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav">
+                <div class="nav-item active" onclick="navigateTo('screen-projects')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span>Projetos</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-feed')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21,15 16,10 5,21"/>
+                    </svg>
+                    <span>Feed</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-hours')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                    </svg>
+                    <span>Horas</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-learn')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                    </svg>
+                    <span>Aprender</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-profile')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Perfil</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Tela de Detalhe do Projeto -->
+        <div id="screen-project-detail" class="screen">
+            <div class="header-back">
+                <button class="back-btn" onclick="navigateTo('screen-projects')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1>Detalhes do Projeto</h1>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="content">
+                <!-- Map Section -->
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <!-- Street pattern background -->
+                        <div class="map-streets"></div>
+                        <!-- Position marker with pulsing animation and bounce -->
+                        <div class="map-position-marker" id="mapYouMarker">
+                            <div class="position-pulse-ring"></div>
+                            <div class="position-pulse-ring delay"></div>
+                            <div class="position-accuracy"></div>
+                            <div class="position-dot"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Check -->
+                <div class="location-check-card loading" id="locationCheckCard">
+                    <div class="location-status-icon loading">
+                        <div class="loading-spinner"></div>
+                    </div>
+                    <div class="location-status-info">
+                        <span class="status-main" style="color: var(--text-secondary);">Verificando localização...</span>
+                        <span class="status-sub">Ative a localização no seu dispositivo</span>
+                    </div>
+                </div>
+
+                <!-- Project Info -->
+                <div class="project-detail-card">
+                    <h2>Residência Alto de Pinheiros</h2>
+                    <p class="project-address">Av. Pedroso de Morais, 1234 - Alto de Pinheiros, São Paulo</p>
+
+                    <div class="project-tag-row">
+                        <span class="tag-pill stelion">STELION</span>
+                        <span class="tag-pill">Residencial</span>
+                    </div>
+                </div>
+
+                <!-- Team Section -->
+                <div class="section-title">Equipe do Projeto</div>
+                <div class="team-list" id="teamList">
+                    <div class="loading-team">Carregando equipe...</div>
+                </div>
+
+                <!-- Check-in Button -->
+                <button class="btn-checkin-large disabled" id="checkinBtn" onclick="doCheckin()" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <span>Fazer Check-in</span>
+                </button>
+
+                <!-- Report Button (shown after check-in) -->
+                <button class="btn-report" id="reportBtn" style="display: none;" onclick="navigateTo('screen-report')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 20h9"/>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                    </svg>
+                    <span>Criar Relatório</span>
+                </button>
+
+                <!-- Checkout Button (shown after check-in) -->
+                <button class="btn-checkout" id="checkoutBtn" style="display: none;" onclick="showLeavingModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    <span>Fazer Checkout</span>
+                </button>
+
+                <!-- Entry Request Button (Liberacao na Portaria) -->
+                <button class="btn-entry-request" id="entryRequestBtn" onclick="requestEntry()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <path d="M9 3v18"/>
+                        <path d="M14 9l3 3-3 3"/>
+                    </svg>
+                    <span>Solicitar Liberacao na Portaria</span>
+                </button>
+
+                <!-- Request Help/Material Button -->
+                <button class="btn-request-help" id="requestHelpBtn" onclick="openRequestModal()">
+                    <span class="siren-emoji">🚨</span>
+                    <span>SOLICITAR MATERIAL OU AJUDA</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tela de Feed -->
+        <div id="screen-feed" class="screen">
+            <div class="header">
+                <div class="header-left">
+                    <h1 class="header-title">Feed</h1>
+                </div>
+                <div class="header-right">
+                    <button class="icon-btn" onclick="navigateTo('screen-new-post')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="12" y1="8" x2="12" y2="16"/>
+                            <line x1="8" y1="12" x2="16" y2="12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="content feed-content" id="feedContent">
+                <!-- Posts carregados dinamicamente -->
+                <div class="empty-state" id="feedEmptyState">
+                    <div class="empty-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21,15 16,10 5,21"/>
+                        </svg>
+                    </div>
+                    <h3>Nenhuma publicacao ainda</h3>
+                    <p>Seja o primeiro a compartilhar seu trabalho com a equipe!</p>
+                    <button class="btn-primary-small" onclick="navigateTo('screen-new-post')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Criar publicacao
+                    </button>
+                </div>
+                <!-- Container para posts dinamicos -->
+                <div id="feedPosts" style="display: none;"></div>
+            </div>
+
+            <nav class="bottom-nav">
+                <div class="nav-item" onclick="navigateTo('screen-projects')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span>Projetos</span>
+                </div>
+                <div class="nav-item active" onclick="navigateTo('screen-feed')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21,15 16,10 5,21"/>
+                    </svg>
+                    <span>Feed</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-hours')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                    </svg>
+                    <span>Horas</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-learn')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                    </svg>
+                    <span>Aprender</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-profile')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Perfil</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Tela de Novo Post -->
+        <div id="screen-new-post" class="screen">
+            <div class="header-back">
+                <button class="back-btn" onclick="navigateTo('screen-feed')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1>Novo Post</h1>
+                <button class="text-btn" id="publishPostBtn" onclick="publishPost()">Publicar</button>
+            </div>
+
+            <div class="content">
+                <div class="new-post-form">
+                    <div class="post-image-upload">
+                        <input type="file" id="postPhotoInput" accept="image/*" style="display: none;" onchange="handlePostPhotoSelect(event)">
+                        <div class="upload-area" id="postUploadArea" onclick="document.getElementById('postPhotoInput').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21,15 16,10 5,21"/>
+                            </svg>
+                            <span>Adicionar foto</span>
+                        </div>
+                        <div class="upload-preview" id="postUploadPreview" style="display: none;">
+                            <img id="postPhotoPreview" src="" alt="Preview">
+                            <button class="remove-photo-btn" onclick="removePostPhoto()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"/>
+                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <textarea class="post-text-input" id="postTextInput" placeholder="Compartilhe seu trabalho com a equipe..."></textarea>
+
+                    <div class="project-selector">
+                        <label>Vincular ao projeto:</label>
+                        <div class="select-box" id="postProjectSelector" onclick="openPostProjectModal()">
+                            <span id="postProjectName">Selecione um projeto</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6,9 12,15 18,9"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Selecao de Projeto para Post -->
+        <div id="post-project-modal" class="modal">
+            <div class="modal-content project-select-modal">
+                <div class="modal-header">
+                    <h3>Selecionar Projeto</h3>
+                    <button class="close-modal-btn" onclick="closePostProjectModal()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="project-list-modal" id="postProjectList">
+                    <!-- Projetos carregados dinamicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Comentários -->
+        <div id="screen-comments" class="screen">
+            <div class="header-back">
+                <button class="back-btn" onclick="navigateTo('screen-feed')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1>Comentarios</h1>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="content comments-content">
+                <div class="comments-list" id="commentsList">
+                    <!-- Comentarios carregados dinamicamente -->
+                </div>
+            </div>
+
+            <div class="comment-input-area">
+                <input type="text" id="commentInput" placeholder="Adicionar comentario..." onkeypress="if(event.key==='Enter')addComment()">
+                <button class="send-btn" onclick="addComment()">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal de Confirmação de Delete Post -->
+        <div id="deletePostModal" class="modal-overlay">
+            <div class="modal-content delete-post-modal">
+                <div class="delete-post-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                        <line x1="10" y1="11" x2="10" y2="17"/>
+                        <line x1="14" y1="11" x2="14" y2="17"/>
+                    </svg>
+                </div>
+                <h3>Excluir publicacao?</h3>
+                <p>Esta acao nao pode ser desfeita.</p>
+                <div class="delete-post-actions">
+                    <button class="btn-cancel" onclick="closeDeletePostModal()">Cancelar</button>
+                    <button class="btn-delete-confirm" onclick="deletePost()">Excluir</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Horas (Simplificada) -->
+        <div id="screen-hours" class="screen">
+            <div class="header">
+                <div class="header-left">
+                    <h1 class="header-title">Minhas Horas</h1>
+                </div>
+                <div class="header-right"></div>
+            </div>
+
+            <div class="content">
+                <!-- Period Selector -->
+                <div class="period-selector">
+                    <button class="period-btn" onclick="changeHoursMonth(-1)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15,18 9,12 15,6"/>
+                        </svg>
+                    </button>
+                    <span class="period-text" id="hoursPeriodText">Dezembro 2024</span>
+                    <button class="period-btn" onclick="changeHoursMonth(1)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9,18 15,12 9,6"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Hours Summary -->
+                <div class="hours-summary-simple">
+                    <div class="hours-total">
+                        <span class="hours-big" id="hoursTotalValue">0h</span>
+                        <span class="hours-label">Total do Mes</span>
+                    </div>
+                </div>
+
+                <!-- Hours by Project -->
+                <div class="section-title">Horas por Projeto</div>
+                <div class="hours-project-list" id="hoursProjectList">
+                    <!-- Estado vazio -->
+                    <div class="empty-state-small" id="hoursEmptyState">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                        <p>Nenhuma hora registrada neste mes</p>
+                        <span>Faca check-in em um projeto para comecar</span>
+                    </div>
+                    <!-- Projetos carregados dinamicamente -->
+                </div>
+            </div>
+
+            <nav class="bottom-nav">
+                <div class="nav-item" onclick="navigateTo('screen-projects')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span>Projetos</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-feed')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21,15 16,10 5,21"/>
+                    </svg>
+                    <span>Feed</span>
+                </div>
+                <div class="nav-item active" onclick="navigateTo('screen-hours')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                    </svg>
+                    <span>Horas</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-learn')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                    </svg>
+                    <span>Aprender</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-profile')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Perfil</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Tela de Relatório -->
+        <div id="screen-report" class="screen">
+            <div class="header-back">
+                <button class="back-btn" onclick="navigateTo('screen-project-detail')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1>Relatório de Obra</h1>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="content">
+                <div class="report-project">
+                    <span class="label">Projeto</span>
+                    <span class="project" id="reportProjectName">Carregando...</span>
+                </div>
+
+                <div class="report-date">
+                    <span class="label">Data</span>
+                    <span class="date" id="reportDate">--</span>
+                </div>
+
+                <!-- Audio Recording -->
+                <div class="audio-section">
+                    <div class="section-title">Registrar por Áudio</div>
+                    <p class="audio-hint">Descreva as atividades realizadas, materiais utilizados, ocorrências e próximos passos.</p>
+
+                    <div class="audio-recorder" id="audioRecorder">
+                        <div class="audio-waves">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                        <button class="record-btn" id="recordBtn" onclick="toggleRecording()">
+                            <svg class="mic-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                            <svg class="stop-icon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                                <rect x="6" y="6" width="12" height="12" rx="2"/>
+                            </svg>
+                        </button>
+                        <span class="record-time" id="recordTime">00:00</span>
+                        <span class="record-status" id="recordStatus">Toque para gravar</span>
+                    </div>
+
+                    <!-- Audio Playback (hidden until recorded) -->
+                    <div class="audio-playback" id="audioPlayback" style="display: none;">
+                        <div class="audio-playback-info">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                            <span id="audioPlaybackDuration">00:00</span>
+                        </div>
+                        <button class="audio-play-btn" onclick="playRecordedAudio()">
+                            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5,3 19,12 5,21"/>
+                            </svg>
+                            <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                                <rect x="6" y="4" width="4" height="16"/>
+                                <rect x="14" y="4" width="4" height="16"/>
+                            </svg>
+                        </button>
+                        <button class="audio-delete-btn" onclick="deleteRecordedAudio()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Tags -->
+                <div class="section-title">Tags Rápidas</div>
+                <div class="quick-tags" id="quickTags">
+                    <div class="tag-input-wrapper">
+                        <input type="text" class="tag-input" id="customTagInput" placeholder="Digite uma tag..." maxlength="30">
+                        <button class="tag-add-btn" onclick="addCustomTag()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="tag-item" onclick="toggleTag(this)">Aplicação concluída</div>
+                    <div class="tag-item" onclick="toggleTag(this)">Aguardando material</div>
+                    <div class="tag-item" onclick="toggleTag(this)">Problema identificado</div>
+                    <div class="tag-item" onclick="toggleTag(this)">Cura em andamento</div>
+                    <div class="tag-item" onclick="toggleTag(this)">Lixamento feito</div>
+                    <div class="tag-item" onclick="toggleTag(this)">Selador aplicado</div>
+                </div>
+
+                <!-- Notes -->
+                <div class="section-title">Observações</div>
+                <textarea class="report-notes" id="reportNotes" placeholder="Descreva detalhes adicionais, observações importantes, materiais utilizados..." rows="4"></textarea>
+
+                <!-- Media Upload (Photos/Videos) -->
+                <div class="section-title">Fotos e Vídeos</div>
+                <div class="media-grid" id="mediaGrid">
+                    <input type="file" id="mediaInput" accept="image/*,video/*" multiple style="display: none;" onchange="handleMediaUpload(event)">
+                    <div class="media-add" onclick="document.getElementById('mediaInput').click()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="12" y1="8" x2="12" y2="16"/>
+                            <line x1="8" y1="12" x2="16" y2="12"/>
+                        </svg>
+                        <span>Adicionar</span>
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="submitReportBtn" onclick="submitReport()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                    <span>Enviar Relatório</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tela Educacional / Gamificação -->
+        <div id="screen-learn" class="screen">
+            <div class="header">
+                <div class="header-left">
+                    <h1 class="header-title">Academia</h1>
+                </div>
+                <div class="header-right"></div>
+            </div>
+
+            <div class="content">
+                <!-- Coming Soon State -->
+                <div class="coming-soon-container">
+                    <div class="coming-soon-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                        </svg>
+                    </div>
+                    <h2>Academia Monofloor</h2>
+                    <p class="coming-soon-subtitle">Em breve</p>
+                    <div class="coming-soon-features">
+                        <div class="feature-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22,4 12,14.01 9,11.01"/>
+                            </svg>
+                            <span>Trilhas de aprendizado</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22,4 12,14.01 9,11.01"/>
+                            </svg>
+                            <span>Videos e tutoriais</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22,4 12,14.01 9,11.01"/>
+                            </svg>
+                            <span>Conquistas e XP</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22,4 12,14.01 9,11.01"/>
+                            </svg>
+                            <span>Desafios semanais</span>
+                        </div>
+                    </div>
+                    <p class="coming-soon-note">Estamos preparando conteudos incriveis para voce evoluir na carreira!</p>
+                </div>
+            </div>
+
+            <nav class="bottom-nav">
+                <div class="nav-item" onclick="navigateTo('screen-projects')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span>Projetos</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-feed')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21,15 16,10 5,21"/>
+                    </svg>
+                    <span>Feed</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-hours')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                    </svg>
+                    <span>Horas</span>
+                </div>
+                <div class="nav-item active" onclick="navigateTo('screen-learn')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                    </svg>
+                    <span>Aprender</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-profile')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Perfil</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Tela de Perfil -->
+        <div id="screen-profile" class="screen">
+            <div class="header-back">
+                <button class="back-btn" onclick="navigateTo('screen-projects')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1>Perfil</h1>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="content">
+                <div class="profile-header">
+                    <div class="profile-avatar-large" id="profileAvatar">--</div>
+                    <div class="profile-name-container">
+                        <h2 id="profileName">Carregando...</h2>
+                        <!-- Primary Badge (like Instagram verification) -->
+                        <div class="profile-verified-badge" id="profileVerifiedBadge" style="display: none;">
+                            <img src="" alt="Badge" id="profileVerifiedIcon">
+                        </div>
+                    </div>
+                    <span class="profile-username" id="profileUsername">@...</span>
+                    <div class="profile-role-badge" id="profileRoleBadge">
+                        <div class="profile-character-icon" id="profileCharacterIcon"></div>
+                        <span class="profile-role-text" id="profileRoleText">...</span>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-value" id="profileHours">0</span>
+                            <span class="stat-label">horas</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="profileM2">0</span>
+                            <span class="stat-label">m² aplicados</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="profileProjects">0</span>
+                            <span class="stat-label">Projetos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-menu">
+                    <div class="menu-item" onclick="navigateTo('screen-badges')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="8" r="7"/>
+                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+                        </svg>
+                        <span>Conquistas</span>
+                        <span class="badges-count" id="badgesCount">0</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron">
+                            <polyline points="9,18 15,12 9,6"/>
+                        </svg>
+                    </div>
+                    <div class="menu-item" onclick="navigateTo('screen-edit-profile')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        <span>Editar Perfil</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron">
+                            <polyline points="9,18 15,12 9,6"/>
+                        </svg>
+                    </div>
+                    <div class="menu-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        </svg>
+                        <span>Configuracoes</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron">
+                            <polyline points="9,18 15,12 9,6"/>
+                        </svg>
+                    </div>
+                    <div class="menu-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                        <span>Ajuda</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron">
+                            <polyline points="9,18 15,12 9,6"/>
+                        </svg>
+                    </div>
+                    <div class="menu-item logout" onclick="doLogout()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        <span>Sair</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron">
+                            <polyline points="9,18 15,12 9,6"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="app-version">
+                    <span>Monofloor Equipes v1.0.0</span>
+                </div>
+            </div>
+
+            <nav class="bottom-nav">
+                <div class="nav-item" onclick="navigateTo('screen-projects')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span>Projetos</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-feed')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21,15 16,10 5,21"/>
+                    </svg>
+                    <span>Feed</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-hours')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                    </svg>
+                    <span>Horas</span>
+                </div>
+                <div class="nav-item" onclick="navigateTo('screen-learn')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                    </svg>
+                    <span>Aprender</span>
+                </div>
+                <div class="nav-item active" onclick="navigateTo('screen-profile')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Perfil</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Tela de Editar Perfil -->
+        <div id="screen-edit-profile" class="screen">
+            <div class="header-back">
+                <button class="back-btn" onclick="navigateTo('screen-profile')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1>Editar Perfil</h1>
+                <button class="text-btn" onclick="saveProfile()">Salvar</button>
+            </div>
+
+            <div class="content">
+                <div class="edit-photo-section">
+                    <div class="edit-avatar" id="editAvatar">--</div>
+                    <input type="file" id="editProfilePhotoInput" accept="image/*" style="display: none;" onchange="previewEditPhoto(this)">
+                    <button class="change-photo-btn" onclick="document.getElementById('editProfilePhotoInput').click()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                            <circle cx="12" cy="13" r="4"/>
+                        </svg>
+                        Alterar foto
+                    </button>
+                </div>
+
+                <div class="edit-form">
+                    <div class="input-group">
+                        <label>Nome completo</label>
+                        <input type="text" id="editName" placeholder="Seu nome completo">
+                    </div>
+                    <div class="input-group">
+                        <label>Username</label>
+                        <div class="input-with-prefix">
+                            <span class="prefix">@</span>
+                            <input type="text" id="editUsername" placeholder="seu.username">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>E-mail</label>
+                        <input type="email" id="editEmail" placeholder="seu@email.com" disabled>
+                        <span class="input-hint">O e-mail nao pode ser alterado</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Telefone</label>
+                        <input type="tel" id="editPhone" placeholder="(11) 99999-9999" maxlength="15" oninput="formatPhone(this)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Conquistas (Badges) -->
+        <div id="screen-badges" class="screen">
+            <div class="header-back">
+                <button class="back-btn" onclick="navigateTo('screen-profile')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1>Conquistas</h1>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="content badges-screen-content">
+                <!-- Stats Header -->
+                <div class="badges-stats-header">
+                    <div class="badges-stat">
+                        <span class="badges-stat-value" id="totalBadgesCount">0</span>
+                        <span class="badges-stat-label">Total</span>
+                    </div>
+                    <div class="badges-stat">
+                        <span class="badges-stat-value legendary" id="legendaryBadgesCount">0</span>
+                        <span class="badges-stat-label">Lendarias</span>
+                    </div>
+                    <div class="badges-stat">
+                        <span class="badges-stat-value epic" id="epicBadgesCount">0</span>
+                        <span class="badges-stat-label">Epicas</span>
+                    </div>
+                    <div class="badges-stat">
+                        <span class="badges-stat-value rare" id="rareBadgesCount">0</span>
+                        <span class="badges-stat-label">Raras</span>
+                    </div>
+                </div>
+
+                <!-- Primary Badge Section -->
+                <div class="primary-badge-section" id="primaryBadgeSection" style="display: none;">
+                    <div class="section-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <span>Badge em Destaque</span>
+                    </div>
+                    <div class="primary-badge-card" id="primaryBadgeCard">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- All Badges Section -->
+                <div class="all-badges-section">
+                    <div class="section-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="8" r="7"/>
+                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+                        </svg>
+                        <span>Todas as Conquistas</span>
+                    </div>
+                    <div class="badges-list" id="badgesList">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div class="badges-empty-state" id="badgesEmptyState">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="8" r="6"/>
+                            <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+                        </svg>
+                        <span>Nenhuma conquista ainda</span>
+                        <small>Participe de campanhas e complete desafios para ganhar badges!</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Saída do Projeto -->
+        <div id="leaving-modal" class="modal">
+            <div class="modal-content leaving-modal-content">
+                <div class="leaving-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                </div>
+                <h2>Você está saindo do projeto</h2>
+                <p>Você está indo para:</p>
+
+                <div class="leaving-options">
+                    <button class="leaving-option" onclick="selectLeavingReason('almoco')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+                            <path d="M7 2v20"/>
+                            <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
+                        </svg>
+                        <span>Almoco / Intervalo</span>
+                    </button>
+                    <button class="leaving-option" onclick="selectLeavingReason('insumos')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"/>
+                            <circle cx="20" cy="21" r="1"/>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                        </svg>
+                        <span>Comprar insumos</span>
+                    </button>
+                    <button class="leaving-option" onclick="selectLeavingReason('outro')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <span>Outro projeto</span>
+                    </button>
+                    <button class="leaving-option" onclick="selectLeavingReason('fim')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                        <span>Fim do expediente</span>
+                    </button>
+                </div>
+
+                <button class="btn-secondary" onclick="closeLeavingModal()">Cancelar</button>
+            </div>
+        </div>
+
+        <!-- Publishing Modal (Instagram style) -->
+        <div id="publishing-modal" class="modal publishing-modal">
+            <div class="publishing-content">
+                <div class="publishing-preview" id="publishingPreview">
+                    <img id="publishingImage" src="" alt="Preview">
+                </div>
+                <div class="publishing-status">
+                    <div class="publishing-progress">
+                        <div class="publishing-progress-bar" id="publishingProgressBar"></div>
+                    </div>
+                    <span class="publishing-text" id="publishingText">Publicando...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="success-modal" class="modal">
+            <div class="modal-content">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22,4 12,14.01 9,11.01"/>
+                    </svg>
+                </div>
+                <h2 id="modal-title">Check-in Realizado!</h2>
+                <p id="modal-message">Bom trabalho! Seu expediente começou às 08:00.</p>
+                <button class="btn-primary" onclick="closeModal()">Continuar</button>
+            </div>
+        </div>
+
+        <!-- Location Consent Modal -->
+        <div id="location-consent-modal" class="modal">
+            <div class="modal-content">
+                <div class="location-consent-icon" style="width: 64px; height: 64px; margin: 0 auto 16px; background: linear-gradient(135deg, rgba(201, 169, 98, 0.2), rgba(201, 169, 98, 0.1)); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#c9a962" stroke-width="2" style="width: 32px; height: 32px;">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                </div>
+                <h2 style="color: #fff; margin-bottom: 12px;">Permissão de Localização</h2>
+                <p style="color: #999; margin-bottom: 24px; line-height: 1.5;">
+                    Para que suas horas de trabalho sejam computadas corretamente, precisamos acessar sua localização durante o uso do app.
+                </p>
+                <button class="btn-primary" onclick="acknowledgeLocationConsent()" style="width: 100%;">Estou ciente</button>
+            </div>
+        </div>
+
+        <!-- Location Denied Banner (shown when permission denied) -->
+        <div id="location-denied-banner" class="location-denied-banner" style="display: none;">
+            <div class="banner-content">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px; color: #f97316;">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span>Localização não ativa - suas horas podem não ser computadas</span>
+            </div>
+        </div>
+
+        <!-- Network Status Banner (shown when offline) -->
+        <div id="network-status-banner" class="network-status-banner" style="display: none;">
+            <div class="banner-content">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px; color: #ef4444;">
+                    <line x1="1" y1="1" x2="23" y2="23"/>
+                    <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>
+                    <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>
+                    <path d="M10.71 5.05A16 16 0 0 1 22.58 9"/>
+                    <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/>
+                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                    <line x1="12" y1="20" x2="12.01" y2="20"/>
+                </svg>
+                <span>Sem conexão - dados serão sincronizados quando online</span>
+            </div>
+        </div>
+
+        <!-- Lunch Reminder Modal -->
+        <div id="lunch-reminder-modal" class="modal-overlay">
+            <div class="modal-content lunch-modal">
+                <div class="lunch-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                        <line x1="6" y1="1" x2="6" y2="4"/>
+                        <line x1="10" y1="1" x2="10" y2="4"/>
+                        <line x1="14" y1="1" x2="14" y2="4"/>
+                    </svg>
+                </div>
+                <h3 class="lunch-title">Hora do Almoco!</h3>
+                <p class="lunch-message" id="lunch-message">Esta na hora de fazer uma pausa para o almoco.</p>
+                <p class="lunch-time">12:00 - 13:00</p>
+                <div class="lunch-actions">
+                    <button class="btn-lunch-break" onclick="startLunchBreak()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        Fazer Pausa
+                    </button>
+                    <button class="btn-lunch-later" onclick="dismissLunchReminder()">Depois</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaving Area During Lunch Modal -->
+        <div id="lunch-leaving-modal" class="modal-overlay">
+            <div class="modal-content leaving-modal">
+                <div class="leaving-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                </div>
+                <h3 class="leaving-title">Saindo do projeto?</h3>
+                <p class="leaving-message">Notamos que voce esta se afastando do local do projeto. O que voce vai fazer?</p>
+                <div class="leaving-options">
+                    <button class="btn-leaving-option" onclick="confirmLeavingReason('ALMOCO_INTERVALO')">
+                        <span class="option-icon">🍽️</span>
+                        <span class="option-text">Almoco/Intervalo</span>
+                    </button>
+                    <button class="btn-leaving-option" onclick="confirmLeavingReason('COMPRA_INSUMOS')">
+                        <span class="option-icon">🛒</span>
+                        <span class="option-text">Compra de Insumos</span>
+                    </button>
+                    <button class="btn-leaving-option" onclick="confirmLeavingReason('OUTRO_PROJETO')">
+                        <span class="option-icon">📍</span>
+                        <span class="option-text">Indo p/ Outro Projeto</span>
+                    </button>
+                    <button class="btn-leaving-option" onclick="confirmLeavingReason('FIM_EXPEDIENTE')">
+                        <span class="option-icon">🏠</span>
+                        <span class="option-text">Fim do Expediente</span>
+                    </button>
+                </div>
+                <button class="btn-leaving-cancel" onclick="dismissLeavingModal()">Continuar Trabalhando</button>
+            </div>
+        </div>
+
+        <!-- Nearby Projects Modal (Full Screen) -->
+        <div id="nearbyProjectsModal" class="modal-fullscreen">
+            <div class="modal-fullscreen-header">
+                <button class="btn-back" onclick="closeNearbyProjectsModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h2>Projetos Proximos</h2>
+                <div class="header-spacer"></div>
+            </div>
+            <div class="modal-fullscreen-content">
+                <div id="nearbyProjectsList" class="nearby-projects-list">
+                    <div class="nearby-loading">
+                        <div class="spinner"></div>
+                        <span>Buscando sua localizacao...</span>
+                    </div>
+                </div>
+                <button class="btn-load-more" id="loadMoreNearbyBtn" onclick="loadMoreNearbyProjects()" style="display: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    <span>Carregar mais projetos</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Contribution Request Modal -->
+        <div id="contributionModal" class="modal-overlay">
+            <div class="modal-content contribution-modal">
+                <div class="contribution-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="8.5" cy="7" r="4"/>
+                        <line x1="20" y1="8" x2="20" y2="14"/>
+                        <line x1="23" y1="11" x2="17" y2="11"/>
+                    </svg>
+                </div>
+                <h3 class="contribution-title">Quero Contribuir</h3>
+                <p class="contribution-project-name" id="contributionProjectName"></p>
+                <div class="input-group">
+                    <label>Por que voce quer participar deste projeto? (opcional)</label>
+                    <textarea id="contributionDescription" placeholder="Ex: Moro perto, tenho experiencia com este tipo de obra..." rows="3"></textarea>
+                </div>
+                <div class="contribution-buttons">
+                    <button class="btn-secondary" onclick="closeContributionModal()">Cancelar</button>
+                    <button class="btn-primary" onclick="submitContributionRequest()">Enviar Solicitacao</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contribution Success Modal -->
+        <div id="contributionSuccessModal" class="modal-overlay">
+            <div class="modal-content contribution-success-modal">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                </div>
+                <h3>Solicitacao Enviada!</h3>
+                <p>O admin sera notificado e voce recebera uma resposta em breve.</p>
+                <button class="btn-primary" onclick="closeContributionSuccessModal()">Entendi</button>
+            </div>
+        </div>
+
+        <!-- Request Type Selection Modal -->
+        <div id="requestTypeModal" class="modal-overlay">
+            <div class="modal-content request-type-modal">
+                <div class="modal-header">
+                    <h3>O que você precisa?</h3>
+                    <button class="modal-close" onclick="closeRequestTypeModal()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="request-type-options">
+                    <button class="request-type-btn" onclick="openMaterialRequest()">
+                        <div class="type-icon material">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                                <line x1="12" y1="22.08" x2="12" y2="12"/>
+                            </svg>
+                        </div>
+                        <div class="type-info">
+                            <h4>Solicitar Material</h4>
+                            <p>Preciso de mais insumos para a obra</p>
+                        </div>
+                    </button>
+                    <button class="request-type-btn" onclick="openHelpRequest()">
+                        <div class="type-icon help">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                        </div>
+                        <div class="type-info">
+                            <h4>Solicitar Ajuda</h4>
+                            <p>Preciso de suporte ou reforço na equipe</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Material Request Modal (Full Screen) -->
+        <div id="materialRequestModal" class="screen modal-screen">
+            <div class="header-back">
+                <button class="back-btn" onclick="closeMaterialRequest()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1>Solicitar Material</h1>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="content">
+                <div class="report-project">
+                    <span class="label">Projeto</span>
+                    <span class="project" id="materialProjectName">Carregando...</span>
+                </div>
+
+                <!-- Material Name -->
+                <div class="section-title">Qual material você precisa?</div>
+                <select class="material-select" id="materialName">
+                    <option value="" disabled selected>Selecione o material...</option>
+                    <option value="PRIMER™ [PISO]">PRIMER™ [PISO]</option>
+                    <option value="PRIMER™ [PAREDE]">PRIMER™ [PAREDE]</option>
+                    <option value="LEONA™">LEONA™</option>
+                    <option value="LILIT™">LILIT™</option>
+                    <option value="SELADOR™">SELADOR™</option>
+                    <option value="STELION™">STELION™</option>
+                    <option value="LUMINA™">LUMINA™</option>
+                </select>
+
+                <!-- Quantity -->
+                <div class="section-title" style="margin-top: 24px;">Quantidade necessária</div>
+                <input type="text" class="report-notes" id="materialQuantity" placeholder="Escreva a quantidade, caso não saiba, escreva 'Não sei'" style="height: auto; min-height: 48px; resize: none;">
+
+                <!-- Audio Recording -->
+                <div class="audio-section" style="margin-top: 24px;">
+                    <div class="section-title">Porque o material acabou?</div>
+                    <p class="audio-hint">Grave um áudio explicando a situação.</p>
+
+                    <div class="audio-recorder" id="materialAudioRecorder">
+                        <div class="audio-waves" id="materialAudioWaves">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                        <button type="button" class="record-btn" id="materialRecordBtn" onclick="toggleMaterialRecording()">
+                            <svg class="mic-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                            <svg class="stop-icon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                                <rect x="6" y="6" width="12" height="12" rx="2"/>
+                            </svg>
+                        </button>
+                        <span class="record-time" id="materialRecordTime">00:00</span>
+                        <span class="record-status" id="materialRecordStatus">Toque para gravar</span>
+                    </div>
+
+                    <!-- Audio Playback (hidden until recorded) -->
+                    <div class="audio-playback" id="materialAudioPlayback" style="display: none;">
+                        <div class="audio-playback-info">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                            <span id="materialAudioDuration">00:00</span>
+                        </div>
+                        <button class="audio-play-btn" onclick="playMaterialAudio()">
+                            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5,3 19,12 5,21"/>
+                            </svg>
+                        </button>
+                        <button class="audio-delete-btn" onclick="deleteMaterialAudio()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="submitMaterialBtn" onclick="submitMaterialRequest()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                    <span>Enviar Solicitação</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Help Request Modal (Full Screen) -->
+        <div id="helpRequestModal" class="screen modal-screen">
+            <div class="header-back">
+                <button class="back-btn" onclick="closeHelpRequest()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <h1>Solicitar Ajuda</h1>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <div class="content">
+                <div class="report-project">
+                    <span class="label">Projeto</span>
+                    <span class="project" id="helpProjectName">Carregando...</span>
+                </div>
+
+                <!-- Issue Description -->
+                <div class="section-title">O que está acontecendo?</div>
+                <textarea class="report-notes" id="helpDescription" placeholder="Descreva o problema ou a ajuda que você precisa..." rows="3"></textarea>
+
+                <!-- Audio Recording -->
+                <div class="audio-section" style="margin-top: 24px;">
+                    <div class="section-title">Explique por Áudio</div>
+                    <p class="audio-hint">Grave um áudio detalhando melhor a situação.</p>
+
+                    <div class="audio-recorder" id="helpAudioRecorder">
+                        <div class="audio-waves" id="helpAudioWaves">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                        <button type="button" class="record-btn" id="helpRecordBtn" onclick="toggleHelpRecording()">
+                            <svg class="mic-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                            <svg class="stop-icon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                                <rect x="6" y="6" width="12" height="12" rx="2"/>
+                            </svg>
+                        </button>
+                        <span class="record-time" id="helpRecordTime">00:00</span>
+                        <span class="record-status" id="helpRecordStatus">Toque para gravar</span>
+                    </div>
+
+                    <!-- Audio Playback (hidden until recorded) -->
+                    <div class="audio-playback" id="helpAudioPlayback" style="display: none;">
+                        <div class="audio-playback-info">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                            <span id="helpAudioDuration">00:00</span>
+                        </div>
+                        <button class="audio-play-btn" onclick="playHelpAudio()">
+                            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5,3 19,12 5,21"/>
+                            </svg>
+                        </button>
+                        <button class="audio-delete-btn" onclick="deleteHelpAudio()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Video Section -->
+                <div class="section-title" style="margin-top: 24px;">Vídeo (Opcional)</div>
+                <p class="audio-hint" style="margin-bottom: 16px;">Adicione um vídeo para mostrar melhor o problema.</p>
+
+                <div class="media-grid" id="helpMediaGrid">
+                    <input type="file" id="helpVideoInput" accept="video/*" capture="environment" style="display: none;" onchange="handleHelpVideoSelect(event)">
+                    <div class="media-add" onclick="document.getElementById('helpVideoInput').click()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="23 7 16 12 23 17 23 7"/>
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                        </svg>
+                        <span>Adicionar Vídeo</span>
+                    </div>
+                </div>
+
+                <!-- Video Preview -->
+                <div class="video-preview-container" id="helpVideoPreview" style="display: none;">
+                    <video id="helpVideoPlayer" controls style="width: 100%; border-radius: 12px;"></video>
+                    <button class="audio-delete-btn" onclick="removeHelpVideo()" style="position: absolute; top: 8px; right: 8px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <button class="btn-primary" id="submitHelpBtn" onclick="submitHelpRequest()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                    <span>Enviar Solicitação</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Request Success Modal -->
+        <div id="requestSuccessModal" class="modal-overlay">
+            <div class="modal-content request-success-modal">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                </div>
+                <h3>Solicitacao Enviada!</h3>
+                <p id="requestSuccessMessage">Sua solicitacao foi registrada e o responsavel sera notificado via WhatsApp.</p>
+                <button class="btn-primary" onclick="closeRequestSuccessModal()">Entendi</button>
+            </div>
+        </div>
+
+        <!-- Evolution Notification Modal (Pokemon Style) -->
+        <div id="evolutionOverlay" class="evolution-overlay">
+            <h2 class="evolution-title">Voce passou para outro nivel!</h2>
+            <div class="evolution-container">
+                <!-- Glow effect -->
+                <div class="evolution-glow"></div>
+
+                <!-- Sparkles -->
+                <div class="evolution-sparkle"></div>
+                <div class="evolution-sparkle"></div>
+                <div class="evolution-sparkle"></div>
+                <div class="evolution-sparkle"></div>
+                <div class="evolution-sparkle"></div>
+                <div class="evolution-sparkle"></div>
+
+                <!-- Flash effect -->
+                <div class="evolution-flash"></div>
+
+                <!-- Character icons -->
+                <img id="evolutionOldIcon" class="evolution-icon old-icon" src="" alt="Cargo Anterior">
+                <img id="evolutionNewIcon" class="evolution-icon new-icon" src="" alt="Novo Cargo">
+
+                <!-- Role label -->
+                <div id="evolutionRoleLabel" class="evolution-role-label"></div>
+            </div>
+            <button class="evolution-continue-btn" onclick="closeEvolutionNotification()">Continuar</button>
+        </div>
+
+        <!-- =============================================
+             ONBOARDING SEQUENCE (3 Pop-ups gamificados)
+             ============================================= -->
+        <!-- Onboarding Overlay Container -->
+        <div id="onboardingOverlay" class="onboarding-overlay">
+
+            <!-- Step 1: Welcome -->
+            <div id="onboardingStep1" class="onboarding-step active">
+                <div class="onboarding-content">
+                    <!-- Decorative particles -->
+                    <div class="onboarding-particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
+
+                    <!-- Grasshopper icon -->
+                    <div class="onboarding-icon-container">
+                        <div class="onboarding-glow"></div>
+                        <div class="onboarding-icon">🦗</div>
+                    </div>
+
+                    <h2 class="onboarding-title">Seja bem-vindo,<br><span class="highlight">pequeno gafanhoto.</span></h2>
+
+                    <div class="onboarding-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+
+                    <button class="onboarding-btn" onclick="nextOnboardingStep(2)">
+                        <span>Continuar</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Features -->
+            <div id="onboardingStep2" class="onboarding-step">
+                <div class="onboarding-content">
+                    <!-- Decorative particles -->
+                    <div class="onboarding-particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
+
+                    <!-- Features icons -->
+                    <div class="onboarding-features-icons">
+                        <div class="feature-icon-item">
+                            <div class="feature-icon">📋</div>
+                            <span>Projetos</span>
+                        </div>
+                        <div class="feature-icon-item">
+                            <div class="feature-icon">🔧</div>
+                            <span>Pepinos</span>
+                        </div>
+                        <div class="feature-icon-item">
+                            <div class="feature-icon">📝</div>
+                            <span>Relatorios</span>
+                        </div>
+                        <div class="feature-icon-item">
+                            <div class="feature-icon">⬆️</div>
+                            <span>Evoluir</span>
+                        </div>
+                    </div>
+
+                    <h2 class="onboarding-title">Aqui voce ira<br><span class="highlight">entender seus projetos,</span><br>resolver pepinos,<br>enviar relatorios<br>e <span class="highlight">evoluir.</span></h2>
+
+                    <div class="onboarding-dots">
+                        <span class="dot"></span>
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                    </div>
+
+                    <button class="onboarding-btn" onclick="nextOnboardingStep(3)">
+                        <span>Continuar</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Current Role -->
+            <div id="onboardingStep3" class="onboarding-step">
+                <div class="onboarding-content">
+                    <!-- Decorative particles -->
+                    <div class="onboarding-particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
+
+                    <!-- Role icon container -->
+                    <div class="onboarding-role-container">
+                        <div class="role-glow"></div>
+                        <img id="onboardingRoleIcon" class="onboarding-role-icon" src="icons/ajudante.png" alt="Seu cargo">
+                    </div>
+
+                    <h2 class="onboarding-title">Sua posicao atual e:</h2>
+                    <div class="onboarding-role-badge" id="onboardingRoleBadge">
+                        <span id="onboardingRoleName">Ajudante</span>
+                    </div>
+
+                    <p class="onboarding-help-text">
+                        Se tiver duvidas de como o app funciona,<br>clique em <span class="help-link" onclick="openHelpFromOnboarding()">Ajuda</span>
+                    </p>
+
+                    <div class="onboarding-dots">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot active"></span>
+                    </div>
+
+                    <button class="onboarding-btn finish" onclick="finishOnboarding()">
+                        <span>Comecar!</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =============================================
+             CAMPAIGN POPUP (Full Screen - Video/Image + Button)
+             ============================================= -->
+        <div id="campaignOverlay" class="campaign-overlay">
+            <!-- Close button (X) -->
+            <button class="campaign-close-btn" onclick="closeCampaign()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+
+            <!-- Campaign banner (video or image) - fills the screen -->
+            <div id="campaignBannerContainer" class="campaign-banner-container">
+                <!-- Video or image will be inserted here dynamically -->
+            </div>
+
+            <!-- Bottom overlay with CTA button -->
+            <div class="campaign-bottom-overlay">
+                <button id="campaignJoinBtn" class="campaign-join-btn" onclick="joinCampaign()">
+                    QUERO PARTICIPAR
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Socket.io Client -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
